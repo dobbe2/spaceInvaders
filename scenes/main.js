@@ -70,6 +70,15 @@ action('bullet', (b) => {
   }
 })
 
+//bullet hits invader
+collides('bullet', 'space-invader', (b,s) =>  {
+  camShake(4);
+  destroy(b);
+  destroy(s);
+  score.value ++;
+  score.text = score.value
+})
+
 const score = add([
   text('0'),
   pos(50, 150),
