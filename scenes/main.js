@@ -1,24 +1,35 @@
 const MOVE_SPEED = 200;
-const INVADER_SPEED = 100
-let CURRENT_SPEED = INVADER_SPEED
-const LEVEL_DOWN = 100
+let INVADER_SPEED = 100;
+let CURRENT_SPEED = INVADER_SPEED;
+const LEVEL_DOWN = 100;
 
 //layers of the game board
+
+
 layer(['obj', 'ui'], 'obj')
 
 //create the game board
 addLevel([
-  '!^@^@^@^@^@    &',
-  '!@^@^@^@^@^    &',
-  '!^@^@^@^@^@    &',
-  '!              &',
-  '!              &',
-  '!              &',
-  '!              &',
-  '!              &',
-  '!              &',
-  '!              &',
-  '!              &',
+  '!^@^@^@^@^@.     &',
+  '!@^@^@^@^@^      &',
+  '!^@^@^@^@^@      &',
+  '!                &',
+  '!                &',
+  '!                &',
+  '!                &',
+  '!                &',
+  '!                &',
+  '!                &',
+  '!                &',
+  '!                &',
+  '!                &',
+  '!                &',
+  '!                &',
+  '!                &',
+  '!                &',
+  '!                &',
+  '!                &',
+  '!                &',
 ], {
   width: 30,
   height: 22,
@@ -52,7 +63,7 @@ function spawnBullet(p){
     rect(4,12), 
     pos(p), 
     origin('center'), 
-    color(0.5, 0.5, 1), 
+    color(rand(rgb(0, 0, 0), rgb(1, 1, 1))), 
     'bullet'
     ])
 }
@@ -76,12 +87,17 @@ collides('bullet', 'space-invader', (b,s) =>  {
   destroy(b);
   destroy(s);
   score.value ++;
-  score.text = score.value
+  score.text = score.value;
+  //clear all aliens, win!
+  if(score.value === 30){
+    go('win', { score : score.value })
+  }
 })
 
 const score = add([
   text('0'),
-  pos(50, 150),
+  origin("botleft"),
+  pos(4, height() - 2),
   layer('ui'),
   scale(3),
    {
@@ -118,12 +134,13 @@ action('space-invader', (s) => {
 collides('space-invader', 'right-wall', () => {
   CURRENT_SPEED = -INVADER_SPEED
   every('space-invader', (s) => {
-     s.move(0, LEVEL_DOWN)
+     s.move(0, LEVEL_DOWN);
   })
 })
 
 //left wall collision and reverse
 collides('space-invader', 'left-wall', () => {
+
   CURRENT_SPEED = INVADER_SPEED
   every('space-invader', (s) => {
      s.move(0, LEVEL_DOWN)
@@ -135,7 +152,7 @@ player.overlaps('space-invader', () => {
 })
 
 action('space-invader', (s) => {
-  if (s.pos.y >= height() /2 ){
+  if (s.pos.y >= height() ){
       go('lose', { score : score.value })
   }
 })

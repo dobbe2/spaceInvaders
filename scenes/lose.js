@@ -1,5 +1,5 @@
 add([
-  text(args.score),
+  text(`YOU LOSE! Score:`.trim() + args.score),
   origin('center'),
   scale(10),
   pos(width() / 2, height() / 2)
