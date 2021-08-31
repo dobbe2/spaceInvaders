@@ -1,122 +1,81 @@
-const MOVE_SPEED = 200;
-let INVADER_SPEED = 100;
+const MOVE_SPEED = 400;
+let INVADER_SPEED = 300;
 let CURRENT_SPEED = INVADER_SPEED;
 const LEVEL_DOWN = 100;
-const STAR_SPEED = 120;
-
-// add([
-// 		text("KILL ALL ALIENS", 18),
-// 		pos(width() / 2, height() / 5 ),
-// 		origin("center"),
-// 		layer("obj"),
-//     'message',
-// 	]);
-
-// action("message", (m) => {
-// 		m.move(0, STAR_SPEED);
-// 		if (m.pos.y >= height()) {
-// 			destroy(m);
-// 		}
-// 	});
-
-
+const STAR_SPEED = 300;
 
 //sound
 const music = play('invaders', { loop: true, });
 volume(0.5)
-// const music2 = play('win');
-// const music3 = play('gameOver');
-
 
 //layers of the game board
 layer(['obj', 'ui'], 'obj')
 
 //sky
-
 const sky = add([
   rect(width(), height()),
   color(0,0,0,0),
 ]);
+
 //stars
 //add stars
   add([
 		sprite("stars"),
-		scale(width() / 880, height() / 880),
+		scale(width() / 580, height() / 580),
 		pos(50, 0),
 		"stars",
 	]);
 
 	add([
 		sprite("stars"),
-		scale(width() / 980, height() / 980),
+		scale(width() / 680, height() / 680),
 		pos(100, 80),
 		"stars",
 	]);
 
   add([
 		sprite("stars"),
-		scale(width() / 880, height() / 880),
+		scale(width() / 580, height() / 580),
 		pos(150, 120),
 		"stars",
 	]);
 
 	add([
 		sprite("stars"),
-		scale(width() / 980, height() / 980),
+		scale(width() / 680, height() / 680),
 		pos(200, 260),
 		"stars",
 	]);
 
-add([
+  add([
 		sprite("stars"),
-		scale(width() / 980, height() / 980),
+		scale(width() / 680, height() / 680),
 		pos(240, 20),
 		"stars",
 	]);
 
   add([
 		sprite("stars"),
-		scale(width() / 980, height() / 980),
+		scale(width() / 680, height() / 680),
 		pos(290, 160),
 		"stars",
 	]);
 
   add([
 		sprite("stars"),
-		scale(width() / 980, height() / 980),
+		scale(width() / 680, height() / 680),
 		pos(360, 360),
 		"stars",
 	]);
 
-  add([
-		sprite("stars"),
-		scale(width() / 980, height() / 980),
-		pos(400, 55),
-		"stars",
-	]);
-
-  add([
-		sprite("stars"),
-		scale(width() / 980, height() / 980),
-		pos(420, 400),
-		"stars",
-	]);
-
   //move stars down the screen
-action("stars", (r) => {
-		r.move(0, STAR_SPEED);
-		if (r.pos.y >= height()) {
-			r.pos.y -= height() * 2;
-		}
-	});
-  
-//message
-// add([
-// 		text("KILL ALL ALIENS",24),
-// 		pos(width() / 2, height() / 2),
-// 		origin("center"),
-// 		layer("ui"),
-// 	]);
+  action("stars", (r) => {
+      r.move(0, STAR_SPEED);
+      if (r.pos.y >= height()) {
+        r.pos.y -= height() * 2;
+      }
+    });
+
   
 //create the game board
 addLevel([
@@ -150,7 +109,6 @@ addLevel([
   '!' : [ sprite('wall'), 'left-wall'],
   '&' : [ sprite('wall'), 'right-wall'],
   '%' : [ sprite('leader'), 'left-wall', 'right-wall']
-  
 })
 
 //add spaceship
@@ -216,17 +174,10 @@ collides('bullet', 'space-invader', (b,s) =>  {
   }
 })
 
-const scoreboard = add([
-  text('Score:'),
-  pos(50, height() / 99),
-  scale(2)
-])
-
 const score = add([
-  
   text('0'),
-  // origin("top"),   
-  pos(150, height() / 99),
+  origin("botleft"),
+  pos(4, height() - 2),
   layer('ui'),
   scale(3),
    {
@@ -249,7 +200,6 @@ collides('space-invader', 'right-wall', () => {
 
 //left wall collision and reverse
 collides('space-invader', 'left-wall', () => {
-
   CURRENT_SPEED = INVADER_SPEED
   every('space-invader', (s) => {
      s.move(0, LEVEL_DOWN)
@@ -257,7 +207,6 @@ collides('space-invader', 'left-wall', () => {
 })
 
 keyPress("m", () => {
-
 	// pause / play music
 	if (music.paused()) {
 		music.play();

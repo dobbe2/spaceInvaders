@@ -16,6 +16,6 @@ add([
 
 keyPress("space", () => {
 
-	go("main")
+	go("battle")
 
 });
