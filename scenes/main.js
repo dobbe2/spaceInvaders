@@ -4,6 +4,21 @@ let CURRENT_SPEED = INVADER_SPEED;
 const LEVEL_DOWN = 100;
 const STAR_SPEED = 120;
 
+add([
+		text("KILL ALL ALIENS", 18),
+		pos(width() / 2, height() / 5 ),
+		origin("center"),
+		layer("obj"),
+    'message',
+	]);
+
+action("message", (m) => {
+		m.move(0, STAR_SPEED);
+		if (m.pos.y >= height()) {
+			destroy(m);
+		}
+	});
+
 
 
 //sound
@@ -82,12 +97,12 @@ action("stars", (r) => {
 	});
   
 //message
-add([
-		text("KILL ALL ALIENS",24),
-		pos(width() / 2, height() / 2),
-		origin("center"),
-		layer("ui"),
-	]);
+// add([
+// 		text("KILL ALL ALIENS",24),
+// 		pos(width() / 2, height() / 2),
+// 		origin("center"),
+// 		layer("ui"),
+// 	]);
   
 //create the game board
 addLevel([
