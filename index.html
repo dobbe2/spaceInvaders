@@ -35,8 +35,11 @@ kaboom({
   global: true,
   plugins: [ peditPlugin, asepritePlugin, kbmspritePlugin ],
 });
+loadKbmsprite("in", "sprites/in.kbmsprite");
 loadKbmsprite("jamesDobbe", "sprites/jamesDobbe.kbmsprite");
 loadKbmsprite("leader", "sprites/leader.kbmsprite");
+loadKbmsprite("leftArrow", "sprites/leftArrow.kbmsprite");
+loadKbmsprite("rightArrow", "sprites/rightArrow.kbmsprite");
 loadKbmsprite("space-invader", "sprites/space-invader.kbmsprite");
 loadKbmsprite("space-invader2", "sprites/space-invader2.kbmsprite");
 loadKbmsprite("space-ship", "sprites/space-ship.kbmsprite");
@@ -54,125 +57,96 @@ let CURRENT_SPEED = INVADER_SPEED;
 const LEVEL_DOWN = 100;
 const STAR_SPEED = 120;
 
-// add([
-// 		text("KILL ALL ALIENS", 18),
-// 		pos(width() / 2, height() / 5 ),
-// 		origin("center"),
-// 		layer("obj"),
-//     'message',
-// 	]);
-
-// action("message", (m) => {
-// 		m.move(0, STAR_SPEED);
-// 		if (m.pos.y >= height()) {
-// 			destroy(m);
-// 		}
-// 	});
-
-
-
 //sound
 const music = play('invaders', { loop: true, });
 volume(0.5)
-// const music2 = play('win');
-// const music3 = play('gameOver');
-
 
 //layers of the game board
 layer(['obj', 'ui'], 'obj')
 
 //sky
-
 const sky = add([
   rect(width(), height()),
-  color(0,0,0,0),
+  color(0, 0, 0, 0),
 ]);
-//stars
+
 //add stars
-  add([
-		sprite("stars"),
-		scale(width() / 880, height() / 880),
-		pos(50, 0),
-		"stars",
-	]);
-
-	add([
-		sprite("stars"),
-		scale(width() / 980, height() / 980),
-		pos(100, 80),
-		"stars",
-	]);
-
-  add([
-		sprite("stars"),
-		scale(width() / 880, height() / 880),
-		pos(150, 120),
-		"stars",
-	]);
-
-	add([
-		sprite("stars"),
-		scale(width() / 980, height() / 980),
-		pos(200, 260),
-		"stars",
-	]);
+add([
+  sprite("stars"),
+  scale(width() / 880, height() / 880),
+  pos(50, 0),
+  "stars",
+]);
 
 add([
-		sprite("stars"),
-		scale(width() / 980, height() / 980),
-		pos(240, 20),
-		"stars",
-	]);
+  sprite("stars"),
+  scale(width() / 980, height() / 980),
+  pos(100, 80),
+  "stars",
+]);
 
-  add([
-		sprite("stars"),
-		scale(width() / 980, height() / 980),
-		pos(290, 160),
-		"stars",
-	]);
+add([
+  sprite("stars"),
+  scale(width() / 880, height() / 880),
+  pos(150, 120),
+  "stars",
+]);
 
-  add([
-		sprite("stars"),
-		scale(width() / 980, height() / 980),
-		pos(360, 360),
-		"stars",
-	]);
+add([
+  sprite("stars"),
+  scale(width() / 980, height() / 980),
+  pos(200, 260),
+  "stars",
+]);
 
-  add([
-		sprite("stars"),
-		scale(width() / 980, height() / 980),
-		pos(400, 55),
-		"stars",
-	]);
+add([
+  sprite("stars"),
+  scale(width() / 980, height() / 980),
+  pos(240, 20),
+  "stars",
+]);
 
-  add([
-		sprite("stars"),
-		scale(width() / 980, height() / 980),
-		pos(420, 400),
-		"stars",
-	]);
+add([
+  sprite("stars"),
+  scale(width() / 980, height() / 980),
+  pos(290, 160),
+  "stars",
+]);
 
-  //move stars down the screen
+add([
+  sprite("stars"),
+  scale(width() / 980, height() / 980),
+  pos(360, 360),
+  "stars",
+]);
+
+add([
+  sprite("stars"),
+  scale(width() / 980, height() / 980),
+  pos(400, 55),
+  "stars",
+]);
+
+add([
+  sprite("stars"),
+  scale(width() / 980, height() / 980),
+  pos(420, 400),
+  "stars",
+]);
+
+//move stars down the screen
 action("stars", (r) => {
-		r.move(0, STAR_SPEED);
-		if (r.pos.y >= height()) {
-			r.pos.y -= height() * 2;
-		}
-	});
-  
-//message
-// add([
-// 		text("KILL ALL ALIENS",24),
-// 		pos(width() / 2, height() / 2),
-// 		origin("center"),
-// 		layer("ui"),
-// 	]);
-  
+  r.move(0, STAR_SPEED);
+  if (r.pos.y >= height()) {
+    r.pos.y -= height() * 2;
+  }
+});
+
 //create the game board
 addLevel([
   '%                %',
   '                  ',
-  '!^@^@^@^@^@.     &',
+  '!^@^@^@^@^@      &',
   '!@^@^@^@^@^      &',
   '!^@^@^@^@^@      &',
   '!                &',
@@ -193,15 +167,14 @@ addLevel([
   '!                &',
   '!                &',
 ], {
-  width: 30,
-  height: 22,
-  '^' : [ sprite('space-invader'), scale(0.5), 'space-invader'],
-  '@' : [ sprite('space-invader2'), scale(0.5), 'space-invader'],
-  '!' : [ sprite('wall'), 'left-wall'],
-  '&' : [ sprite('wall'), 'right-wall'],
-  '%' : [ sprite('leader'), 'left-wall', 'right-wall']
-  
-})
+    width: 30,
+    height: 22,
+    '^': [sprite('space-invader'), scale(0.5), 'space-invader'],
+    '@': [sprite('space-invader2'), scale(0.5), 'space-invader'],
+    '!': [sprite('wall'), 'left-wall'],
+    '&': [sprite('wall'), 'right-wall'],
+    '%': [sprite('leader'), 'left-wall', 'right-wall']
+  })
 
 //add spaceship
 const player = add([
@@ -213,29 +186,30 @@ const player = add([
 //move player left
 keyDown('left', () => {
   player.move(-MOVE_SPEED, 0);
-  if(player.pos.x < 20) {
-    player.pos.x = 20;
+  if (player.pos.x < 30) {
+    player.pos.x = 30;
   }
 })
 
 //move player right
 keyDown('right', () => {
   player.move(MOVE_SPEED, 0);
-  if(player.pos.x > width()){
-    player.pos.x = width();
+  if (player.pos.x > 500) {
+    player.pos.x = 500;
   }
 })
 
 //spawn bullet
-function spawnBullet(p){
+function spawnBullet(p) {
   add([
-    rect(4,12), 
-    pos(p), 
-    origin('center'), 
-    color(rand(rgb(0, 0, 0), rgb(1, 1, 1))), 
+    rect(4, 12),
+    pos(p),
+    origin('center'),
+    color(rand(rgb(0, 0, 0), rgb(1, 1, 1))),
     'bullet'
-    ])
+  ])
 }
+
 //fire bullets
 keyPress('space', () => {
   play('pew');
@@ -246,23 +220,23 @@ const BULLET_SPEED = 400
 //move bullet
 action('bullet', (b) => {
   b.move(0, -BULLET_SPEED)
-  if(b.pos.y < 0) {
+  if (b.pos.y < 0) {
     destroy(b);
   }
 })
 
 //bullet hits invader
-collides('bullet', 'space-invader', (b,s) =>  {
+collides('bullet', 'space-invader', (b, s) => {
   play('splode');
   camShake(4);
   destroy(b);
   destroy(s);
-  score.value ++;
+  score.value++;
   score.text = score.value;
   //clear all aliens, win!
-  if(score.value === 30){
+  if (score.value === 30) {
     music.pause();
-    go('win', { score : score.value })
+    go('win', { score: score.value })
   }
 })
 
@@ -273,15 +247,14 @@ const scoreboard = add([
 ])
 
 const score = add([
-  
   text('0'),
   // origin("top"),   
   pos(150, height() / 99),
   layer('ui'),
   scale(3),
-   {
-     value: 0,
-   }
+  {
+    value: 0,
+  }
 ])
 
 action('space-invader', (s) => {
@@ -292,39 +265,37 @@ action('space-invader', (s) => {
 collides('space-invader', 'right-wall', () => {
   CURRENT_SPEED = -INVADER_SPEED
   every('space-invader', (s) => {
-     s.move(0, LEVEL_DOWN);
+    s.move(0, LEVEL_DOWN);
     music.detune(music.detune() + 1);
   })
 })
 
 //left wall collision and reverse
 collides('space-invader', 'left-wall', () => {
-
   CURRENT_SPEED = INVADER_SPEED
   every('space-invader', (s) => {
-     s.move(0, LEVEL_DOWN)
+    s.move(0, LEVEL_DOWN)
   })
 })
 
 keyPress("m", () => {
-
-	// pause / play music
-	if (music.paused()) {
-		music.play();
-	} else {
-		music.pause();
-	}
+  // pause / play music
+  if (music.paused()) {
+    music.play();
+  } else {
+    music.pause();
+  }
 });
 
 player.overlaps('space-invader', () => {
   music.pause();
-  go('lose', { score : score.value })
+  go('lose', { score: score.value })
 })
 
 action('space-invader', (s) => {
-  if (s.pos.y >= height() ){
+  if (s.pos.y >= height()) {
     music.pause();
-      go('lose', { score : score.value })
+    go('lose', { score: score.value })
   }
 })
 
@@ -333,33 +304,31 @@ scene("howToPlay", (args = {}) => {
 add([
   text(
       `
-      Welcome to Space Invaders
-      How To Play:
-      Move ship with Left and Right Arrows
-      Fire with Spacebar
-      Press M to mute music
-  `)
+Welcome to Space Invaders
+How To Play:
+Move ship with 
+Left and Right Arrows
+Fire with Spacebar
+Press M to mute music
+  `),
+  pos(width() / 2, height() / 10),
+  origin('center')
   ])
 
 add([
-		text("OBJECTIVE: KILL ALL ALIENS", 14),
-		// pos(width() / 2, height() / 5 ),
-		origin("bot"),
-		layer("obj"),
-    'message',
-	]);
+  sprite('leader'),
+  scale(1),
+  pos(width() / 2 , height()/2),
+  origin('center')
+])
 
   add([
-		text(`
-    Press Spacebar to Play
-    
-    Press " r " to return to main menu
-    `),
-		pos(width() / 2, height() / 2 ),
-		origin("center"),
-		layer("obj"),
-    'message',
-	]);
+  text(`Press Space to Play
+  Press 'D' to meet the developer`
+, 8),
+  origin('center'),
+  pos(width() / 2, height() / 1.1)
+]);
 
   keyPress("space", () => {
 
@@ -373,10 +342,15 @@ keyPress("r", () => {
 
 });
 
+keyPress("d", () => {
+
+	go("theCreator")
+
+});
 });
 scene("insaneBattle", (args = {}) => {
-const MOVE_SPEED = 400;
-let INVADER_SPEED = 300;
+const MOVE_SPEED = 300;
+let INVADER_SPEED = 200;
 let CURRENT_SPEED = INVADER_SPEED;
 const LEVEL_DOWN = 100;
 const STAR_SPEED = 300;
@@ -391,74 +365,74 @@ layer(['obj', 'ui'], 'obj')
 //sky
 const sky = add([
   rect(width(), height()),
-  color(0,0,0,0),
+  color(0, 0, 0, 0),
 ]);
 
-//stars
 //add stars
-  add([
-		sprite("stars"),
-		scale(width() / 580, height() / 580),
-		pos(50, 0),
-		"stars",
-	]);
+add([
+  sprite("stars"),
+  scale(width() / 580, height() / 580),
+  pos(50, 0),
+  "stars",
+]);
 
-	add([
-		sprite("stars"),
-		scale(width() / 680, height() / 680),
-		pos(100, 80),
-		"stars",
-	]);
+add([
+  sprite("stars"),
+  scale(width() / 680, height() / 680),
+  pos(100, 80),
+  "stars",
+]);
 
-  add([
-		sprite("stars"),
-		scale(width() / 580, height() / 580),
-		pos(150, 120),
-		"stars",
-	]);
+add([
+  sprite("stars"),
+  scale(width() / 580, height() / 580),
+  pos(150, 120),
+  "stars",
+]);
 
-	add([
-		sprite("stars"),
-		scale(width() / 680, height() / 680),
-		pos(200, 260),
-		"stars",
-	]);
+add([
+  sprite("stars"),
+  scale(width() / 680, height() / 680),
+  pos(200, 260),
+  "stars",
+]);
 
-  add([
-		sprite("stars"),
-		scale(width() / 680, height() / 680),
-		pos(240, 20),
-		"stars",
-	]);
+add([
+  sprite("stars"),
+  scale(width() / 680, height() / 680),
+  pos(240, 20),
+  "stars",
+]);
 
-  add([
-		sprite("stars"),
-		scale(width() / 680, height() / 680),
-		pos(290, 160),
-		"stars",
-	]);
+add([
+  sprite("stars"),
+  scale(width() / 680, height() / 680),
+  pos(290, 160),
+  "stars",
+]);
 
-  add([
-		sprite("stars"),
-		scale(width() / 680, height() / 680),
-		pos(360, 360),
-		"stars",
-	]);
+add([
+  sprite("stars"),
+  scale(width() / 680, height() / 680),
+  pos(360, 360),
+  "stars",
+]);
 
-  //move stars down the screen
-  action("stars", (r) => {
-      r.move(0, STAR_SPEED);
-      if (r.pos.y >= height()) {
-        r.pos.y -= height() * 2;
-      }
-    });
+//move stars down the screen
+action("stars", (r) => {
+  r.move(0, STAR_SPEED);
+  if (r.pos.y >= height()) {
+    r.pos.y -= height() * 2;
+  }
+});
 
-  
 //create the game board
 addLevel([
   '%                %',
   '                  ',
-  '!^@^@^@^@^@.     &',
+  '!^@^@^@^@^@      &',
+  '!@^@^@^@^@^      &',
+  '!^@^@^@^@^@      &',
   '!@^@^@^@^@^      &',
   '!^@^@^@^@^@      &',
   '!                &',
@@ -476,17 +450,14 @@ addLevel([
   '!                &',
   '!                &',
   '!                &',
-  '!                &',
-  '!                &',
 ], {
-  width: 30,
-  height: 22,
-  '^' : [ sprite('space-invader'), scale(0.5), 'space-invader'],
-  '@' : [ sprite('space-invader2'), scale(0.5), 'space-invader'],
-  '!' : [ sprite('wall'), 'left-wall'],
-  '&' : [ sprite('wall'), 'right-wall'],
-  '%' : [ sprite('leader'), 'left-wall', 'right-wall']
-  
+    width: 30,
+    height: 22,
+    '^': [sprite('space-invader'), scale(0.3), 'space-invader'],
+    '@': [sprite('space-invader2'), scale(0.3), 'space-invader'],
+    '!': [sprite('wall'), 'left-wall'],
+    '&': [sprite('wall'), 'right-wall'],
+    '%': [sprite('leader'), 'left-wall', 'right-wall']
 })
 
 //add spaceship
@@ -499,7 +470,7 @@ const player = add([
 //move player left
 keyDown('left', () => {
   player.move(-MOVE_SPEED, 0);
-  if(player.pos.x < 20) {
+  if (player.pos.x < 20) {
     player.pos.x = 20;
   }
 })
@@ -507,21 +478,22 @@ keyDown('left', () => {
 //move player right
 keyDown('right', () => {
   player.move(MOVE_SPEED, 0);
-  if(player.pos.x > width()){
+  if (player.pos.x > width()) {
     player.pos.x = width();
   }
 })
 
 //spawn bullet
-function spawnBullet(p){
+function spawnBullet(p) {
   add([
-    rect(4,12), 
-    pos(p), 
-    origin('center'), 
-    color(rand(rgb(0, 0, 0), rgb(1, 1, 1))), 
+    rect(4, 12),
+    pos(p),
+    origin('center'),
+    color(rand(rgb(0, 0, 0), rgb(1, 1, 1))),
     'bullet'
-    ])
+  ])
 }
+
 //fire bullets
 keyPress('space', () => {
   play('pew');
@@ -532,23 +504,23 @@ const BULLET_SPEED = 400
 //move bullet
 action('bullet', (b) => {
   b.move(0, -BULLET_SPEED)
-  if(b.pos.y < 0) {
+  if (b.pos.y < 0) {
     destroy(b);
   }
 })
 
 //bullet hits invader
-collides('bullet', 'space-invader', (b,s) =>  {
+collides('bullet', 'space-invader', (b, s) => {
   play('splode');
   camShake(4);
   destroy(b);
   destroy(s);
-  score.value ++;
+  score.value++;
   score.text = score.value;
   //clear all aliens, win!
-  if(score.value === 30){
+  if (score.value === 30) {
     music.pause();
-    go('win', { score : score.value })
+    go('win', { score: score.value })
   }
 })
 
@@ -558,9 +530,9 @@ const score = add([
   pos(4, height() - 2),
   layer('ui'),
   scale(3),
-   {
-     value: 0,
-   }
+  {
+    value: 0,
+  }
 ])
 
 action('space-invader', (s) => {
@@ -571,39 +543,37 @@ action('space-invader', (s) => {
 collides('space-invader', 'right-wall', () => {
   CURRENT_SPEED = -INVADER_SPEED
   every('space-invader', (s) => {
-     s.move(0, LEVEL_DOWN);
+    s.move(0, LEVEL_DOWN);
     music.detune(music.detune() + 1);
   })
 })
 
 //left wall collision and reverse
 collides('space-invader', 'left-wall', () => {
-
   CURRENT_SPEED = INVADER_SPEED
   every('space-invader', (s) => {
-     s.move(0, LEVEL_DOWN)
+    s.move(0, LEVEL_DOWN)
   })
 })
 
 keyPress("m", () => {
-
-	// pause / play music
-	if (music.paused()) {
-		music.play();
-	} else {
-		music.pause();
-	}
+  // pause / play music
+  if (music.paused()) {
+    music.play();
+  } else {
+    music.pause();
+  }
 });
 
 player.overlaps('space-invader', () => {
   music.pause();
-  go('lose', { score : score.value })
+  go('lose', { score: score.value })
 })
 
 action('space-invader', (s) => {
-  if (s.pos.y >= height() ){
+  if (s.pos.y >= height()) {
     music.pause();
-      go('lose', { score : score.value })
+    go('lose', { score: score.value })
   }
 })
 
@@ -632,25 +602,95 @@ keyPress("space", () => {
 });
 });
 scene("main", (args = {}) => {
-add([
-  text(`
-  Space Invaders was created using
-  Kaboom.JS JavaScript Library and Replit
-  `)
-])
+// Description of you application 
+
+// Explain your project's features
+
+// Include a short demo video 
+
+// Tutorial on how to use or interact with your application
+
+// Obvious and clear button to link to your live application 
+
+// "Meet the Engineers" that shows a photo of the you and your team plus links to your LinkedIn, Twitter, and Github 
+
+// add([
+//   text(`
+//   Space Invaders was created using
+//   Kaboom.JS JavaScript Library and Replit
+//   `),
+//   origin('topleft'),
+//   // pos(width() / 2)
+// ])
+// const leftArrow = 
+// add([
+//   sprite('leftArrow'),
+//   scale(.5),
+//   pos(15, height()/2),
+//   origin('center')
+// ])
+
+// if (mouseIsClicked('leftArrow')) {
+// 				go('howToPlay');
+// 			}
 
 add([
-  sprite('stars')
-])
-
-  add([
-  text(`Press Space to Play
-    Press " i " to learn more
-    Press " h " to learn how to play`),
-  origin('center'),
-  pos(width() / 2, height() /2)
+    text("SPACE INVADERS", 20),
+    pos(width() / 2, height() / 20),
+    origin('center')
 ]);
 
+add([
+    text(`The objective of Space Invaders is to 
+    pan across a screen and shoot descending 
+    swarms of aliens, preventing them from reaching 
+    the bottom of the screen.
+
+    Best played on full screen.
+    `, 5),
+    pos(width() / 2, height() / 6),
+    origin('center'),
+]);
+
+add([
+  sprite('space-invader'),
+  scale(1),
+  pos(width() / 2 - 35 , height()/2),
+  origin('center')
+])
+
+add([
+  sprite('space-ship'),
+  scale(1),
+  pos(width() / 2 , height()/2),
+  origin('center')
+])
+
+add([
+  sprite('space-invader2'),
+  scale(1),
+  pos(width() / 2 + 35 , height()/2),
+  origin('center')
+])
+
+add([
+  text(`Press Space to Play
+  Press 'A' to learn how to play
+  Press 'D' to meet the developer`
+, 8),
+  origin('center'),
+  pos(width() / 2, height() / 1.1)
+]);
+
+
+// Press " i " to learn more
+
+//     Press " h " to learn how to play
+// keyDown("a", () => {
+
+// 	go("howToPlay")
+
+// });
 
 keyPress("space", () => {
 
@@ -658,13 +698,13 @@ keyPress("space", () => {
 
 });
 
-keyPress("i", () => {
+keyPress("d", () => {
 
 	go("theCreator")
 
 });
 
-keyPress("h", () => {
+keyPress("a", () => {
 
 	go("howToPlay")
 
@@ -673,26 +713,57 @@ keyPress("h", () => {
 scene("theCreator", (args = {}) => {
 add([
 		sprite("jamesDobbe"),
-		scale(5),
-		pos(50, 20),
+		scale(2),
+		pos(width() / 2, height() / 3),
 		"creator",
+    origin('center')
 	]);
 
   add([
-    text(`My Name is James Dobbe,
-    thank you for taking the time to 
-    learn about myself and my journey
-    
-    `)
-
+    text(`
+My Name is James Dobbe,
+I am a Full Stack Web Developer/Designer.
+I created this game for the 
+Mintbean.io hackathon.
+I used Kaboom.JS and Replit.com
+to create this game.
+    `),
+    pos(width() / 2, height() / 10),
+    origin('center')
   ])
+
+add([
+  sprite('in'),
+  scale(1),
+  pos(width() / 2, height() / 1.8),
+  origin('center')
+])
+
+add([
+  text(`https://www.linkedin.com/in/james-dobbe/`),
+  pos(width() / 2 , height() / 1.4),
+  origin('center'),
+])
+
+add([
+  text(`Press Space to Play
+  Press 'A' to learn how to play`
+, 8),
+  origin('center'),
+  pos(width() / 2, height() / 1.1)
+]);
 
   keyPress("space", () => {
 
-	go("main")
+	go("battle")
 
 });
 
+keyPress("a", () => {
+
+	go("howToPlay")
+
+});
 
 });
 scene("win", (args = {}) => {

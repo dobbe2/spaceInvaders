@@ -1,33 +1,31 @@
 add([
   text(
       `
-      Welcome to Space Invaders
-      How To Play:
-      Move ship with Left and Right Arrows
-      Fire with Spacebar
-      Press M to mute music
-  `)
+Welcome to Space Invaders
+How To Play:
+Move ship with 
+Left and Right Arrows
+Fire with Spacebar
+Press M to mute music
+  `),
+  pos(width() / 2, height() / 10),
+  origin('center')
   ])
 
 add([
-		text("OBJECTIVE: KILL ALL ALIENS", 14),
-		// pos(width() / 2, height() / 5 ),
-		origin("bot"),
-		layer("obj"),
-    'message',
-	]);
+  sprite('leader'),
+  scale(1),
+  pos(width() / 2 , height()/2),
+  origin('center')
+])
 
   add([
-		text(`
-    Press Spacebar to Play
-    
-    Press " r " to return to main menu
-    `),
-		pos(width() / 2, height() / 2 ),
-		origin("center"),
-		layer("obj"),
-    'message',
-	]);
+  text(`Press Space to Play
+  Press 'D' to meet the developer`
+, 8),
+  origin('center'),
+  pos(width() / 2, height() / 1.1)
+]);
 
   keyPress("space", () => {
 
@@ -38,5 +36,11 @@ add([
 keyPress("r", () => {
 
 	go("main")
+
+});
+
+keyPress("d", () => {
+
+	go("theCreator")
 
 });

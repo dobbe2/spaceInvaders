@@ -1,7 +1,7 @@
-const MOVE_SPEED = 400;
-let INVADER_SPEED = 300;
+const MOVE_SPEED = 300;
+let INVADER_SPEED = 200;
 let CURRENT_SPEED = INVADER_SPEED;
-const LEVEL_DOWN = 100;
+const LEVEL_DOWN = 50;
 const STAR_SPEED = 300;
 
 //sound
@@ -79,11 +79,11 @@ action("stars", (r) => {
 addLevel([
   '%                %',
   '                  ',
-  '!^@^@^@^@^@.     &',
+  '!^@^@^@^@^@      &',
   '!@^@^@^@^@^      &',
   '!^@^@^@^@^@      &',
-  '!                &',
-  '!                &',
+  '!@^@^@^@^@^      &',
+  '!^@^@^@^@^@      &',
   '!                &',
   '!                &',
   '!                &',
@@ -102,12 +102,12 @@ addLevel([
 ], {
     width: 30,
     height: 22,
-    '^': [sprite('space-invader'), scale(0.5), 'space-invader'],
-    '@': [sprite('space-invader2'), scale(0.5), 'space-invader'],
+    '^': [sprite('space-invader'), scale(0.3), 'space-invader'],
+    '@': [sprite('space-invader2'), scale(0.3), 'space-invader'],
     '!': [sprite('wall'), 'left-wall'],
     '&': [sprite('wall'), 'right-wall'],
     '%': [sprite('leader'), 'left-wall', 'right-wall']
-})
+  })
 
 //add spaceship
 const player = add([

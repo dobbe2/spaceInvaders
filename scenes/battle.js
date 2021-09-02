@@ -93,7 +93,7 @@ action("stars", (r) => {
 addLevel([
   '%                %',
   '                  ',
-  '!^@^@^@^@^@.     &',
+  '!^@^@^@^@^@      &',
   '!@^@^@^@^@^      &',
   '!^@^@^@^@^@      &',
   '!                &',
@@ -133,16 +133,16 @@ const player = add([
 //move player left
 keyDown('left', () => {
   player.move(-MOVE_SPEED, 0);
-  if (player.pos.x < 20) {
-    player.pos.x = 20;
+  if (player.pos.x < 30) {
+    player.pos.x = 30;
   }
 })
 
 //move player right
 keyDown('right', () => {
   player.move(MOVE_SPEED, 0);
-  if (player.pos.x > width()) {
-    player.pos.x = width();
+  if (player.pos.x > 500) {
+    player.pos.x = 500;
   }
 })
 
